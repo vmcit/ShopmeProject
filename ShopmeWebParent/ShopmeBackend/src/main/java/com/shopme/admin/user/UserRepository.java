@@ -13,7 +13,7 @@ public interface UserRepository extends CrudRepository<User, Integer> {
 	
 	public Long countById(Integer id);
 	
-	@Query("UPDATE User u SET u.enabled = ?2 Where u.id = ?1")
+	@Query("UPDATE User u SET u.enabled = ?2 WHERE u.id = ?1")
 	@Modifying
 	public void updateEnabledStatus(Integer id, boolean enabled);
 }
