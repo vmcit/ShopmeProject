@@ -18,18 +18,15 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Bean
 	public UserDetailsService userDetailsService() {
-		System.out.println("WebSecurityConfig" + "userDetailsService");
 		return new ShopmeUserDetailsService();
 	}
 	
 	@Bean
 	public PasswordEncoder passwordEncoder() {
-		System.out.println("WebSecurityConfig" + "passwordEncoder");
 		return new BCryptPasswordEncoder();
 	}
 	
 	public DaoAuthenticationProvider authenticationProvider() {
-		System.out.println("WebSecurityConfig" + "authenticationProvider");
 		DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
 		authProvider.setUserDetailsService(userDetailsService());
 		authProvider.setPasswordEncoder(passwordEncoder());
@@ -41,7 +38,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	
 	@Override
 	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-		System.out.println("WebSecurityConfig" + "authenticationProvider");
 		auth.authenticationProvider(authenticationProvider());
 	}
 
@@ -53,7 +49,14 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 			.formLogin()			
 				.loginPage("/login")
 				.usernameParameter("email")
-				.permitAll();
+				.permitAll()
+			.and().logout().permitAll()
+			.and()
+				.rememberMe()
+					.key("AbcDefgHijKlmnOpqrs_1234567890")
+					.tokenValiditySeconds(7 * 24 * 60 * 60);
+					;
+			
 	}
 
 	@Override
